@@ -5,16 +5,18 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
-    "bootstrap-rating": "0.0.1",
-    "bootstrap-select": "^1.12.4",
     "font-awesome": "^4.7.0",
+    "gif-player-jquery": "^0.2.2",
     "jquery": "3.2.1",
     "p5": "^0.5.16",
-    "popper.js": "^1.12.5"
+    "popper.js": "^1.12.5",
+    "watchify": "^3.10.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:js": "browserify custom-js.js -o bundle.js",
+    "watch:js": "watchify custom-js.js -o bundle.js"
   },
   "author": "",
   "license": "ISC"
