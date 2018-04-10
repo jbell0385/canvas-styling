@@ -1,6 +1,9 @@
 var jquery3 = require('./node_modules/jquery/dist/jquery.js');
 var bootstrap = require("./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");
-require("./node_modules/gif-player-jquery/dist/jquery.gifplayer.js");
+//require("./jquery-ui.min.js");
+//var gifplayer = require("./node_modules/gif-player-jquery/dist/jquery.gifplayer.js");
+//var sticky = require("./node_modules/sticky-header/index.js");
+
 //window.Popper = window._popper = $.popper = require("./node_modules/popper.js/dist/umd/popper.min.js");
 //var popover = require("./node_modules/popper.js/dist/umd/popper.min.js");
 //require("p5");
@@ -48,14 +51,6 @@ window.onload = function() {
         }
             
 
-        // Activate draggable modals
-        if ($(".ems-modal-content").length>0) {
-            $(".ems-modal-content").each(function() {
-                $(this).draggable({
-                    handle: ".modal-dialog"
-                });
-            });
-        }
         // Old self-check button answer. Possibly delete.
         $('.btn-answer').click(function(event) {
             event.preventDefault();
@@ -83,11 +78,13 @@ window.onload = function() {
             $(".ems-container-fluid iframe").attr("scrolling", "no");
         }
         // Activate Gifplayer
-        if ($('.gifplayer').length>0) {
-            $('.gifplayer').gifplayer({
-                label: 'PLAY'
-            });
-        }
+        // if ($('.gifplayer').length>0) {
+        //     $('.gifplayer').gifplayer({
+        //         glabel: 'PLAY'
+        //     });
+        // }
+
+        //Change Canvas quiz icon styling
         var quizIcons = $('.icon-quiz');
         $.each(quizIcons, function(index, value) {
             if ($(this).css('display') !== 'none') {
@@ -101,6 +98,8 @@ window.onload = function() {
                 $(this).css('align-items', 'center');
             }
         })
+
+        //Change Canvas lesson icon sytling
         var lessonIcons = $('.icon-document');
         $.each(lessonIcons, function(index, value) {
             if ($(this).css('display') !== 'none') {
@@ -133,6 +132,7 @@ window.onload = function() {
         //     })
         // }, 800)
 
+        //Create colored left borders on module items that indicate completion status
         var checkModuleIcon = setInterval(function(){
             if($('.module-item-status-icon i').length){
                 var contextModule = $(".context_module");
@@ -156,8 +156,53 @@ window.onload = function() {
         },100)
 
 
+        //Add Unit Headers to Module Page
+
+        var headerRegex = /(\d)\.0/;
+        var contextModules = $(".context_module");
+
+        $(contextModules).each(function(index,value){
+            var igHeaderElem = $(this).find(".ig-header-title");
+            var igHeaderTitle = igHeaderElem[1]["title"];
+            if(igHeaderTitle.match(headerRegex)){
+                $(`<div class="custom-unit-header">Unit ${igHeaderTitle[0]}</div>`).prependTo($(this));
+            }
+        })
+
+        $("#quiz_ip_filter").attr("maxlength","524288");
+
+
+
+        //Hide Page Lesson Titles
+        
+
+        //Activate Sticky Headers
+        // var navs = document.querySelectorAll(".nav");
+        // Array.prototype.forEach.call(navs, function(nav){
+        //     sticky(nav);
+        // })
+
+        // var stickies = document.querySelectorAll(".headers-sticky");
+        // Array.prototype.forEach.call(stickies, function(theSticky){
+        //     sticky(theSticky);
+        // })
+
+
         //Leave at the end of file
         $.noConflict(true);
         //$(".question_input").addClass("selectpicker");
     })(jquery3)
+
+
 };
+
+(function($) {
+    $(".page-title").ready(function(){
+        var pageTitle = $(".page-title").text();
+        if(pageTitle.length > 0){
+            $(".hero-text").text(pageTitle);
+            $(".hero-text-bg").css("display","inline");
+            $(".page-title").css("display","none");
+        }
+    })
+})(jquery3)
