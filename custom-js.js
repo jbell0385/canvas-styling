@@ -169,7 +169,7 @@ window.onload = function() {
             }
         })
 
-        $("#quiz_ip_filter").attr("maxlength","524288");
+        
 
 
 
