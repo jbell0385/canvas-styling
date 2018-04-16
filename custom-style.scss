@@ -100,6 +100,7 @@ xmp {
 
 .ems-container,
 .ems-container-fluid {
+
     padding-left: 0;
     padding-right: 0;
     h4,h5{
@@ -117,6 +118,10 @@ xmp {
 
     .col-divider{
         border-right:1px solid #ddd;
+    }
+
+    .section-divider{
+        border-bottom:1px solid #373d3f;
     }
 
     .noborder {
