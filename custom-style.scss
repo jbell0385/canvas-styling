@@ -4,7 +4,8 @@
 
 
 .context_module{
-    background-color:white;
+    background-color: white;
+    position: relative;
 }
 
 .ig-header .name{
@@ -21,6 +22,21 @@
 
 .item-group-container{
     background:white!important;
+}
+
+.custom-unit-header{
+    position:absolute;
+    top:-20px;
+    left:-20px;
+    background:#373d3f;
+    color:white;
+    border-radius:3px;
+    width:80px;
+    height:30px;
+    font-size:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .popover{
@@ -54,6 +70,12 @@
     color:#000;
 }
 
+.page-title {
+    display:none;
+}
+
+.btn
+
 .ems-container,
 .ems-container-fluid {
     margin: 0 auto;
@@ -78,6 +100,7 @@ xmp {
 
 .ems-container,
 .ems-container-fluid {
+
     padding-left: 0;
     padding-right: 0;
     h4,h5{
@@ -97,6 +120,10 @@ xmp {
         border-right:1px solid #ddd;
     }
 
+    .section-divider{
+        border-bottom:1px solid #373d3f;
+    }
+
     .noborder {
         border: none !important;
     }
@@ -113,14 +140,22 @@ xmp {
         }
     }
 
+    a.nav-item.nav-link.active{
+        color:#0786a0;
+    }
+
+    a.nav-item.nav-link{
+        color:#0786a0;
+    }
+
     a {
         cursor: pointer;
         text-decoration: none !important;
-        color: #0786a0 !important;
+        color: #0786a0;
 
         :link {
             text-decoration: none;
-            color: #0786a0 !important;
+            color: #0786a0;
         }
 
         :visited {
@@ -129,7 +164,7 @@ xmp {
 
         :hover {
             text-decoration: none;
-            color: darken(#0786a0, 20%) !important;
+            color: darken(#0786a0, 20%);
         }
 
         :active {
@@ -179,7 +214,27 @@ xmp {
         }
     }
 
-    
+    .img-200{
+        max-width:200px!important;
+    }
+    .img-300{
+        max-width:300px!important;
+    }
+    .img-400{
+        max-width:400px!important;
+    }
+    .img-500{
+        max-width:500px!important;
+    }
+    .img-600{
+        max-width:600px!important;
+    }
+    .img-700{
+        max-width:700px!important;
+    }
+    .img-800{
+        max-width:800px!important;
+    }
 
     .panel-heading-lt {
         font-size: 1.5rem;
@@ -240,12 +295,27 @@ xmp {
         margin: -0.5rem;
     }
 
+    .hero-image img{
+        width:100%;
+        border-radius: 0.3em;
+    }
+
     .hero {
         position: relative;
         margin-bottom: 1rem;
 
+        @keyframes reveal{
+            from{opacity:0;}
+            to{opacity:1;}
+        }
+
+
         .hero-image {
             width: 100%;
+            position:relative;
+            animation-name: reveal;
+            animation-duration: 0.5s;
+            animation-delay: 0s;
         }
 
         img[style] {
@@ -254,18 +324,22 @@ xmp {
             max-width: 100% !important;
             border-radius: 7px;
         }
-
+        
         .hero-text-bg {
+            display:none;
             position: absolute;
-            top: 20%;
-            right: 10%;
+            font-family:"Bree Serif";
+            font-size:2.3em;
+            color:white;
+            text-shadow: -1px 0 #373d3f, 0 1px #373d3f, 1px 0 #373d3f, 0 -1px #373d3f, 3px 3px 3px #373d3f;
+            letter-spacing:0.08em;
+            text-transform:uppercase;
+            top: 5%;
+            left: 0.5em;
             z-index: 1;
-            width: 40%;
-            background-color: transparentize(white, 0.2);
-            padding: 1rem;
-            border-radius: 7px;
-            box-shadow: 5px 5px 5px #373d3f;
-            font-size: 1.3rem;
+            animation-name: reveal;
+            animation-duration: 1.5s;
+            animation-delay: 0s;
         }
     }
 
@@ -395,28 +469,6 @@ xmp {
         .card-body {
             > .col-md-12 {
                 padding: 0rem;
-            }
-
-            .img-200{
-                max-width:200px!important;
-            }
-            .img-300{
-                max-width:300px!important;
-            }
-            .img-400{
-                max-width:400px!important;
-            }
-            .img-500{
-                max-width:500px!important;
-            }
-            .img-600{
-                max-width:600px!important;
-            }
-            .img-700{
-                max-width:700px!important;
-            }
-            .img-800{
-                max-width:800px!important;
             }
 
             img {

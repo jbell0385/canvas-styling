@@ -8,15 +8,18 @@
     "font-awesome": "^4.7.0",
     "gif-player-jquery": "^0.2.2",
     "jquery": "3.2.1",
+    "node-sass": "^4.8.3",
     "p5": "^0.5.16",
     "popper.js": "^1.12.5",
+    "sticky-header": "^0.3.0",
     "watchify": "^3.10.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:js": "browserify custom-js.js -o bundle.js",
-    "watch:js": "watchify custom-js.js -o bundle.js"
+    "watch:js": "watchify custom-js.js -o bundle.js",
+    "build:css": "node-sass --include-path scss custom-style.scss custom-style.css --output-style compressed"
   },
   "author": "",
   "license": "ISC"
