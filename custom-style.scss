@@ -74,7 +74,15 @@
     display:none;
 }
 
-.btn
+
+// remove quiz submission dates
+// .quiz-submission div:nth-child(2){
+//     display:none!important;
+// }
+
+// #submission_details{
+//     display:none!important;
+// }
 
 .ems-container,
 .ems-container-fluid {
@@ -343,10 +351,16 @@ xmp {
         }
     }
 
+    .reset-icon{
+        max-width:25px!important;
+    }
+
     .geogebra-container {
-        @media only screen and (max-width: 768px) {
-            display: none;
-        }
+        // @media only screen and (max-width: 768px) {
+        //     display: none;
+        // }
+        min-width:400px!important;
+        height:auto;
     }
 
     // img[style] {
