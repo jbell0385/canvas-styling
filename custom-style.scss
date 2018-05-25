@@ -609,6 +609,116 @@ xmp {
             display: none;
         }
     }
+
+    // vocab card styles
+
+    .ems-glossary-cards{
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+
+        .image-flip:hover .backside,
+        .image-flip.hover .backside {
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            border-radius: .25rem;
+        }
+        
+        .image-flip:hover .frontside,
+        .image-flip.hover .frontside {
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+        }
+        
+        .mainflip {
+            -webkit-transition: 0.3s;
+            -webkit-transform-style: preserve-3d;
+            -ms-transition: 0.3s;
+            -moz-transition: 0.3s;
+            -moz-transform: perspective(1000px);
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            transition: 0.3s;
+            transform-style: preserve-3d;
+            position: relative;
+
+            .card{
+                border:1px solid #C7CDD1!important;
+                margin-bottom:0px!important;
+            }
+
+            .card .card-text{
+                text-align: left;
+            }
+        }
+        
+        .frontside {
+            position: relative;
+            -webkit-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+            z-index: 1;
+            margin-bottom: 30px;
+        }
+        
+        .backside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index:2;
+            background: white;
+            -webkit-transform: rotateY(-180deg);
+            -moz-transform: rotateY(-180deg);
+            -o-transform: rotateY(-180deg);
+            -ms-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+            -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+            -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+            box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        }
+        
+        .frontside,
+        .backside {
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            -ms-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transition: 0.3s;
+            -webkit-transform-style: preserve-3d;
+            -moz-transition: 0.3s;
+            -moz-transform-style: preserve-3d;
+            -o-transition: 0.3s;
+            -o-transform-style: preserve-3d;
+            -ms-transition: 0.3s;
+            -ms-transform-style: preserve-3d;
+            transition: 0.3s;
+            transform-style: preserve-3d;
+        }
+        
+        .frontside .card,
+        .backside .card {
+            /* min-height: 150px; */
+            width:100%;
+            height:auto;
+        }
+        
+        .frontside .card .card-body img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+    }   
+    // End vocab card styles
+
+
+    // End EMS container
 }
 
 .question .ems-container-fluid {

@@ -8,7 +8,7 @@
     "font-awesome": "^4.7.0",
     "gif-player-jquery": "^0.2.2",
     "jquery": "3.2.1",
-    "node-sass": "^4.8.3",
+    "node-sass": "^4.9.0",
     "p5": "^0.5.16",
     "popper.js": "^1.12.5",
     "sticky-header": "^0.3.0",

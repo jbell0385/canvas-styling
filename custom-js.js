@@ -306,15 +306,19 @@ window.onload = function() {
 
 
         // Hide submission dates
-
-
-
-
-        //Hide Page Lesson Titles
         if($('.quiz-header h2:contains("CHECK")')){
             $('.quiz-submission div:contains("Submitted")').css("display","none");
             $('#multiple_submissions').css("display","none");
         }
+
+        // Glossary Flip cards
+        $(".glossary-card-container").mouseover(function(){
+            this.style.zIndex = "100";
+        })
+
+        $(".glossary-card-container").mouseout(function(){
+            this.style.zIndex = "1";
+        })
 
         //Activate Sticky Headers
         // var navs = document.querySelectorAll(".nav");
