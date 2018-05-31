@@ -198,13 +198,14 @@ window.onload = function() {
         })
 
         // Activate draggable modals
-        if ($(".ems-modal-content").length>0) {
-            $(".ems-modal-content").each(function() {
-                $(this).draggable({
-                    handle: ".modal-dialog"
-                });
-            });
-        }
+        // if ($(".ems-modal-content").length>0) {
+        //     $(".ems-modal-content").each(function() {
+        //         $(this).draggable({
+        //             handle: ".modal-dialog"
+        //         });
+        //     });
+        // }
+        
         // Old self-check button answer. Possibly delete.
         $('.btn-answer').click(function(event) {
             event.preventDefault();
