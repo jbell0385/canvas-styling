@@ -205,7 +205,7 @@ window.onload = function() {
         //         });
         //     });
         // }
-        
+
         // Old self-check button answer. Possibly delete.
         $('.btn-answer').click(function(event) {
             event.preventDefault();
@@ -313,14 +313,16 @@ window.onload = function() {
         }
 
         // Glossary Flip cards
-        $(".glossary-card-container").mouseover(function(){
-            this.style.zIndex = "100";
+        $(".glossary-card-container").ready(function(){
+            $(".glossary-card-container").mouseover(function(){
+                this.style.zIndex = "100";
+            })
+    
+            $(".glossary-card-container").mouseout(function(){
+                this.style.zIndex = "1";
+            })
         })
-
-        $(".glossary-card-container").mouseout(function(){
-            this.style.zIndex = "1";
-        })
-
+        
         //Activate Sticky Headers
         // var navs = document.querySelectorAll(".nav");
         // Array.prototype.forEach.call(navs, function(nav){

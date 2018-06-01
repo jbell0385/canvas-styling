@@ -199,13 +199,14 @@ window.onload = function() {
         })
 
         // Activate draggable modals
-        if ($(".ems-modal-content").length>0) {
-            $(".ems-modal-content").each(function() {
-                $(this).draggable({
-                    handle: ".modal-dialog"
-                });
-            });
-        }
+        // if ($(".ems-modal-content").length>0) {
+        //     $(".ems-modal-content").each(function() {
+        //         $(this).draggable({
+        //             handle: ".modal-dialog"
+        //         });
+        //     });
+        // }
+
         // Old self-check button answer. Possibly delete.
         $('.btn-answer').click(function(event) {
             event.preventDefault();
@@ -313,14 +314,16 @@ window.onload = function() {
         }
 
         // Glossary Flip cards
-        $(".glossary-card-container").mouseover(function(){
-            this.style.zIndex = "100";
+        $(".glossary-card-container").ready(function(){
+            $(".glossary-card-container").mouseover(function(){
+                this.style.zIndex = "100";
+            })
+    
+            $(".glossary-card-container").mouseout(function(){
+                this.style.zIndex = "1";
+            })
         })
-
-        $(".glossary-card-container").mouseout(function(){
-            this.style.zIndex = "1";
-        })
-
+        
         //Activate Sticky Headers
         // var navs = document.querySelectorAll(".nav");
         // Array.prototype.forEach.call(navs, function(nav){
