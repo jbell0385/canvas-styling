@@ -123,6 +123,21 @@ xmp {
         }
     }
 
+    .sidebar-menu{
+        position:fixed!important;
+        top:10%;
+        left:66px;
+        border:1px solid #868686!important;
+        list-style-type:none;
+        max-width:205px;
+        color:#373d3f;
+        box-shadow: 5px 5px 5px #868686;
+        font-size:0.9em;
+    }
+    .sidebar-menu .card-body{
+        padding:20px 10px 10px 15px;
+    }
+
     .col-divider{
         border-right:1px solid #ddd;
     }

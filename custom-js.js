@@ -1,5 +1,6 @@
 var jquery3 = require('./node_modules/jquery/dist/jquery.js');
 var bootstrap = require("./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");
+var waypoint = require("./node_modules/waypoints/lib/noframework.waypoints.min.js")
 //require("./jquery-ui.min.js");
 //var gifplayer = require("./node_modules/gif-player-jquery/dist/jquery.gifplayer.js");
 //var sticky = require("./node_modules/sticky-header/index.js");
@@ -33,6 +34,56 @@ window.onload = function() {
     loadjscssfile("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML", "js");
     //loadjscssfile("//cdn.geogebra.org/apps/deployggb.js", "js");
     (function($) {
+        // waypoint
+        $('[data-waypoint]').ready(function () {
+            var conceptEls = document.querySelectorAll('.concept');
+            var waypoints = document.querySelectorAll('[data-waypoint]');
+            var sidebar = document.querySelector('.sidebar-menu .card-body');
+            
+            conceptEls.forEach((concept)=>{
+                var newLi = document.createElement('li');
+                newLi.appendChild(document.createTextNode(concept.innerText));
+                sidebar.appendChild(newLi);
+            })
+
+
+            if (waypoints) {    
+                waypoints.forEach(function (waypoint) {
+                    var wpNumber = Number(waypoint.dataset.wpnum);
+                    var wpText = waypoint.innerText;
+                    new Waypoint({
+                        element: document.querySelector(`[data-waypoint="${waypoint.dataset.waypoint}"]`),
+                        handler: function (direction) {
+                            if(wpNumber === 0 && direction === "down"){
+                                document.querySelector('.sidebar-menu').style.display = "flex";
+                            }else if(wpNumber === 0 && direction === "up"){
+                                document.querySelector('.sidebar-menu').style.display = "none";
+                            }
+                            
+                            var cNodes = sidebar.childNodes;
+                            cNodes.forEach((node)=>{
+                                if(node.nodeName !== "#text"){
+                                    node.style.cssText = "color:#373d3f; font-weight:normal;";
+                                }
+                            })
+                            if(direction === "down"){
+                                var cHeading = sidebar.querySelector(`:nth-child(${wpNumber+1})`);
+                                cHeading.style.cssText = "color:#0786a0; font-weight:bold;";
+                            }else if(wpNumber !== 0){
+                                var cHeading = sidebar.querySelector(`:nth-child(${wpNumber})`);
+                                cHeading.style.cssText = "color:#0786a0; font-weight:bold;";
+                            }                         
+                        }
+                    })
+                })
+            }
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                Waypoint.refreshAll();
+            })
+        })
+        //end waypoint
+
         if($('[data-toggle="tooltip"]').length>0){
             $('[data-toggle="tooltip"]').tooltip();
         }
@@ -307,7 +358,7 @@ window.onload = function() {
 
 
         // Hide submission dates
-        if($('.quiz-header h2:contains("CHECK")')){
+        if($('.quiz-header h2:contains("CHECK")').length > 0){
             $('.quiz-submission div:contains("Submitted")').css("display","none");
             $('#multiple_submissions').css("display","none");
         }
@@ -322,17 +373,6 @@ window.onload = function() {
                 this.style.zIndex = "1";
             })
         })
-        
-        //Activate Sticky Headers
-        // var navs = document.querySelectorAll(".nav");
-        // Array.prototype.forEach.call(navs, function(nav){
-        //     sticky(nav);
-        // })
-
-        // var stickies = document.querySelectorAll(".headers-sticky");
-        // Array.prototype.forEach.call(stickies, function(theSticky){
-        //     sticky(theSticky);
-        // })
 
 
         //Leave at the end of file

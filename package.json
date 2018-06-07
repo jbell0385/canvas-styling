@@ -12,7 +12,8 @@
     "p5": "^0.5.16",
     "popper.js": "^1.12.5",
     "sticky-header": "^0.3.0",
-    "watchify": "^3.10.0"
+    "watchify": "^3.10.0",
+    "waypoints": "^4.0.1"
   },
   "devDependencies": {},
   "scripts": {
