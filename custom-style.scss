@@ -93,6 +93,27 @@ xmp {
     max-width: 100%;
 }
 
+.sidebar-menu{
+    display:none;
+    position:fixed!important;
+    top:10%;
+    left:55px;
+    border:1px solid #868686!important;
+    list-style-type:none;
+    max-width:205px;
+    color:#373d3f;
+    box-shadow: 5px 5px 5px #868686;
+    font-size:0.9em;
+}
+
+.sidebar-menu .card-body{
+    padding:20px 10px 10px 15px;
+}
+
+.sidebar-show {
+    display:flex;
+}
+
 
 //========================================
 // EMS Container
@@ -123,20 +144,39 @@ xmp {
         }
     }
 
-    .sidebar-menu{
-        position:fixed!important;
-        top:10%;
-        left:66px;
-        border:1px solid #868686!important;
-        list-style-type:none;
-        max-width:205px;
-        color:#373d3f;
-        box-shadow: 5px 5px 5px #868686;
-        font-size:0.9em;
+    .dropdown-trigger{
+        background-color: yellow;
+        cursor: pointer;
     }
-    .sidebar-menu .card-body{
-        padding:20px 10px 10px 15px;
+
+    .dropdown-container{
+        display:none;
+        position:absolute;
+        top:0px;
+        left:0px;
+        border:1px solid #373d3f;
+        padding: 0px 20px 0px 0px;
+        background-color: white;
+
+        li{
+            cursor: pointer;
+        }
+
+        li:hover{
+            background-color: #b4dae2;
+        }
     }
+
+    .dropdown-show{
+        display:block;
+    }
+    
+    .ht-highlight{
+        background-color: #e7ebc3;
+    }
+
+
+
 
     .col-divider{
         border-right:1px solid #ddd;

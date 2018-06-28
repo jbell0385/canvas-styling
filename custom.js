@@ -8,6 +8,7 @@ var waypoint = require("./node_modules/waypoints/lib/noframework.waypoints.min.j
 //window.Popper = window._popper = $.popper = require("./node_modules/popper.js/dist/umd/popper.min.js");
 //var popover = require("./node_modules/popper.js/dist/umd/popper.min.js");
 //require("p5");
+
 //Import any CDN's like Font Awesome
 window.onload = function() {
     var cssNode;
@@ -33,39 +34,68 @@ window.onload = function() {
     loadjscssfile("//www.desmos.com/api/v0.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6", "js");
     loadjscssfile("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML", "js");
     //loadjscssfile("//cdn.geogebra.org/apps/deployggb.js", "js");
+
+    //////////////////////////////////////////////////////////////
+    // Wrap all custom functions in jquery 3 to run bootstrap 4 //
+    //////////////////////////////////////////////////////////////
     (function($) {
-        // waypoint
+
+        //////////////////////////
+        // waypoint Sidebar menu//
+        //////////////////////////
+        //waypoint: http://imakewebthings.com/waypoints/
+        //CSS Styles: .sidebar-menu /.sidebar-menu .card-body /.sidebar-show
+        /*
+            Roadmap:
+            1) Grab all the concept blocks and waypoint div elements
+            2) Create waypoints for each waypoint found in the dom
+            3) If user scrolling down then show sidebar
+            4) If user scrolling up then hide sidebar
+            5) Users current waypoint position is highlighted in the sidebar
+            6) If user clicks on the "close course menu" hamburger, then hide the sidebar
+        */
+
+        //Look for a data-waypoint which signals that there is a sidebar on this page
         $('[data-waypoint]').ready(function () {
+            // Grab all the divs with a concept class, which will have the headers needed for the sidebar
             var conceptEls = document.querySelectorAll('.concept');
+            //Grab all the waypoint divs
             var waypoints = document.querySelectorAll('[data-waypoint]');
             var sidebar = document.querySelector('.sidebar-menu .card-body');
+            sidebar.innerHTML = "";
             
+            //For each concept block, grab the inner text which is a title and then append that to the sidebar
             conceptEls.forEach((concept)=>{
                 var newLi = document.createElement('li');
                 newLi.appendChild(document.createTextNode(concept.innerText));
                 sidebar.appendChild(newLi);
             })
 
-
+            // Create the waypoints
             if (waypoints) {    
                 waypoints.forEach(function (waypoint) {
+                    //Grabs the data-wpnum so I can style the sidebar li that correlates with the user's current scroll
                     var wpNumber = Number(waypoint.dataset.wpnum);
-                    var wpText = waypoint.innerText;
                     new Waypoint({
                         element: document.querySelector(`[data-waypoint="${waypoint.dataset.waypoint}"]`),
-                        handler: function (direction) {
-                            if(wpNumber === 0 && direction === "down"){
-                                document.querySelector('.sidebar-menu').style.display = "flex";
+                        handler: function (direction) { //direction is a built in property of waypoint "up" "down"
+                            //If first waypoint and user scrolling down, show the sidebar
+                            if(wpNumber === 0 && direction === "down"){ 
+                                document.querySelector('.sidebar-menu').classList.add('sidebar-show');
+                            //else if user scrolling up past first waypoint then hide the sidebar
                             }else if(wpNumber === 0 && direction === "up"){
-                                document.querySelector('.sidebar-menu').style.display = "none";
+                                document.querySelector('.sidebar-menu').classList.remove('sidebar-show');
                             }
                             
+                            // Set the styling of the LI elements in the sidebar
                             var cNodes = sidebar.childNodes;
                             cNodes.forEach((node)=>{
                                 if(node.nodeName !== "#text"){
                                     node.style.cssText = "color:#373d3f; font-weight:normal;";
                                 }
                             })
+
+                            // Highlights the LI in the sidebar where the user is current scrolled to
                             if(direction === "down"){
                                 var cHeading = sidebar.querySelector(`:nth-child(${wpNumber+1})`);
                                 cHeading.style.cssText = "color:#0786a0; font-weight:bold;";
@@ -78,43 +108,238 @@ window.onload = function() {
                 })
             }
 
+            // 'shown.bs.tab' listens for the user to click on the bootstrap tab.  Then waypoint is refreshed in order to fix the vertical scroll heights of activation based on the new content.
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 Waypoint.refreshAll();
             })
+
+            //Hide sidebar if user closes course menu
+            //There's a course menu on the left side.  If the user hides that menu, then the sidebar menu will run into the content.  Therfore if that course menu is hidden, then the sidebar also needs to be hidden.
+            $('#courseMenuToggle').on('click', (e)=>{
+                const bodyElement = document.querySelector('body');
+                const sidebarElement = document.querySelector('.sidebar-menu');
+                
+                if(bodyElement.classList.contains('course-menu-expanded')){
+                    sidebarElement.style.display = 'none';
+                }else{
+                    sidebarElement.style.display = '';
+                }
+            })
+
         })
         //end waypoint
 
+        ///////////////////
+        // DropDown Lists//
+        ///////////////////
+        //dropdown choice is embedded in a paragraph of text that the user can interact with.
+        /*
+            Roadmap:
+            1) Check to see if .dropdown-trigger exists in html. 
+            2) I check to .hot-text, because I've noticed a bug that the .hot-text needs to load first before the drop downs are created.
+            3) Grab all the .dropdown-trigger elements and containers
+            4) populate the containers with answer choices from the dataset of the dropdown-trigger datasets
+            5) When user clicks on the .dropdown-trigger, the container is displayed and positioned underneath the word
+            6) User can click on the answer choice.
+            7) if correct, the word turns green and student hears a sound.  If wrong, the word turns red.
+        */
+
+        //Check to see if .dropdown-trigger exists.
+        $('.dropdown-trigger').ready(function(){
+
+            //If hot text exists, that needs to load first before the drop downs.
+            if($('.hot-text')){
+                $('.hot-text').ready(setupDropDown);
+            }else{
+                console.log('skipped hot text')
+                setupDropDown();
+            }
+
+            function setupDropDown(){
+                //Grab all the span elements around the trigger words for the drop downs
+                const choiceElements = document.querySelectorAll('.dropdown-trigger');
+                //Grab all the empty drop down containers that will be filled with the answer choices
+                const dropdownElements = document.querySelectorAll('.dropdown-container');
+
+                //Make the trigger words clickable
+                choiceElements.forEach(el=>{
+                    el.addEventListener('click', ddCreate);
+                })
+
+                function ddCreate(e){
+                    //grab the id dataset from the word that was clicked
+                    const dropDownId = this.dataset.id;
+                    //using that id, grab the correct empty container
+                    const dropDown = document.querySelector(`#${dropDownId}`);
+                    //create all the answer choices that will fill the drop down container
+                    const answerA = this.dataset.a;
+                    const answerB = this.dataset.b;
+                    const answerC = this.dataset.c;
+                    const answerD = this.dataset.d;
+                    //Create the html with the answer choices
+                    const html = `
+                        <ol>
+                            <li>${answerA}</li>
+                            <li>${answerB}</li>
+                            <li>${answerC}</li>
+                            <li>${answerD}</li>
+                        </ol>
+                    `
+                    //drop that html into the empty drop down container
+                    dropDown.innerHTML = html;
+
+                    //show the dropdown menu
+                    dropDown.classList.toggle('dropdown-show');
+
+                    //position it based upon the span tag
+                    const x = e.target.offsetLeft;
+                    const y = e.target.offsetTop + e.target.offsetHeight;
+                    dropDown.style.left = `${x}px`;
+                    dropDown.style.top = `${y}px`;
+
+                    //create eventlisteners for <li> answers
+                    //The parent container is used to delegate the click event to the li elements inside dropDown
+                    dropDown.addEventListener('click',ddAnswerCheck);
+                }
+
+                function ddAnswerCheck(e){
+                    //grab the trigger word that was clicked and get its correct answer
+                    const id = this.getAttribute('id');
+                    const choiceEl = document.querySelector(`[data-id='${id}']`);
+                    const answer = choiceEl.dataset.answer;
+                    //grab the sound element
+                    const soundCorrect = document.querySelector('#sound-correct');
+
+                    //Make sure what was clicked is one of the answer choices
+                    if(e.target.matches('li')){
+                        //Grab the answer that the user selected
+                        const userAnswer = e.target.innerText;
+                        //replace the trigger word with the user choice
+                        choiceEl.innerHTML = `&nbsp;${userAnswer}&nbsp;`;
+                        if(userAnswer === answer){
+                            choiceEl.style.backgroundColor = "#798526";
+                            choiceEl.style.color = "white";
+                            soundCorrect.play();
+                        }else{
+                            choiceEl.style.backgroundColor = "#be1a18";
+                            choiceEl.style.color = "white";
+                        }
+                    }
+                    //after user selects a choice, hide the drop down menu
+                    this.classList.remove('dropdown-show');
+                }
+
+                //hide the drop down menu if the user clicks outside of the drop down menu
+                window.addEventListener('click',e=>{
+                    if(!e.target.matches('.dropdown-container') && !e.target.matches('.dropdown-trigger')){
+                        dropdownElements.forEach((el)=>{
+                            el.classList.remove('dropdown-show');
+                        })
+                    }
+                })
+            }
+            
+        })
+        // End dropdown lists
+
+        //////////////
+        // Hot Text //
+        //////////////
+        //highlight sentence on hover hot text
+
+        /*
+            Roadmap:
+            1) look for a paragraph with the .hot-text class
+            2) Grab the paragraph, split at each sentence, wrap each word with a span with the class of .ht-sentence
+            3) Listener for when user hovers over the sentence
+            4) add .ht-highlight to the sentence that is hovered
+        */
+       $('.ht-btn').ready(function(){
+            const pElements = document.querySelectorAll('.ems-container-fluid p, .ems-container p');
+            const liElements = document.querySelectorAll('.ems-container-fluid li, .ems-container li');
+            const allElements = [...pElements,...liElements];
+
+            const htBtn = document.querySelector('.ht-btn');
+            let htSwitch = false;
+            htBtn.addEventListener('click', activateHt);
+            
+            function activateHt(){
+                
+                htSwitch = !htSwitch;
+                console.log(htSwitch);
+                if(htSwitch){
+                    console.log(allElements)
+                    allElements.forEach((el)=>{
+                        const text = el.innerHTML;
+                        //A regex to try and select each sentence in the paragraph and wrap it in a span element. The span element allows a listener to be added to the sentence inside the paragraph.
+                        const newText = text.replace(/([\w\d\s\,\(\)\{\}\:\<\=\"\-\>\/\@\#\%\^\&\*\_\+\\\|\'\[\]\;])+([\!\?\.][^\s]+)?([\w\d\s\,\(\)\{\}\:\<\=\"\-\>\/\@\#\%\^\&\*\_\+\\\|\'\[\]\;])*/g, `<span class="ht-sentence">$&</span>`);
+                        //Replace the old paragraph with the new paragraph with the span classes
+                        el.innerHTML = newText;
+                    })
+                    
+                    //Grab all those spans with the class .ht-sentence, which will allow mouseover listener added
+                    const highlights = document.querySelectorAll('.ht-sentence');
+                    highlights.forEach((el)=>{
+                        el.addEventListener('mouseover',addHighlight);
+                        el.addEventListener('mouseout',removeHighlight);
+                    })
+        
+                    function addHighlight(){
+                        if(htSwitch){
+                            this.classList.add('ht-highlight');
+                        }
+                    }
+        
+                    function removeHighlight(){
+                        this.classList.remove('ht-highlight');
+                    }
+                }
+            }
+        })     
+        //end highlight sentence on hover hot text
+
+        ////////////////////////////////
+        // Turn on Bootstrap Tooltips //
+        ////////////////////////////////
         if($('[data-toggle="tooltip"]').length>0){
             $('[data-toggle="tooltip"]').tooltip();
         }
 
-        // Activate popovers and glossary
+        ////////////////////////////////
+        // Turn on Bootstrap Popovers //
+        ////////////////////////////////
         if($('[data-toggle="popover"]').length>0){
             $('[data-toggle="popover"]').popover();
         }
 
-        if( $('.glossary').length>0){
-           $('.glossary').each(function(){
+        //////////////////////////////////////////////////////////////////
+        // Turns on Bootstrap Popover for words with the glossary class //
+        //////////////////////////////////////////////////////////////////
+        $('.glossary').ready(function(){
+            $('.glossary').each(function(){
                 $(this).popover({
                     trigger:'hover',
                     delay:{"show":500, "hide":100}
                 });
-            }) 
-        }
+            })
+        })
             
 
         // Old self-check button answer. Possibly delete.
-        $('.btn-answer').click(function(event) {
-            event.preventDefault();
-            $(this).siblings().toggleClass('hideAnswer');
-            if ($(this).text() === "Answer") {
-                $(this).text("Hide");
-            } else {
-                $(this).text("Answer");
-            }
+        $('.btn-answer').ready(function(){
+            $('.btn-answer').click(function(event) {
+                event.preventDefault();
+                $(this).siblings().toggleClass('hideAnswer');
+                if ($(this).text() === "Answer") {
+                    $(this).text("Hide");
+                } else {
+                    $(this).text("Answer");
+                }
+            })
         })
+        
         // Creates show/hide interactivity of self-check answer
-        if ($(".answer-button").length>0) {
+        $('.answer-button').ready(function(){
             $(".answer-button").on("click", function(event) {
                 event.preventDefault();
                 $(this).parent().siblings().toggle(".answer-button");
@@ -124,11 +349,13 @@ window.onload = function() {
                     $(this).text("Answer");
                 }
             })
-        }
+        })
+
         /* Removes scroll bars off iframes on the hero banner */
-        if ($(".ems-container-fluid iframe")) {
+        $('.ems-container-fluid iframe').ready(function(){
             $(".ems-container-fluid iframe").attr("scrolling", "no");
-        }
+        })
+
         // Activate Gifplayer
         // if ($('.gifplayer').length>0) {
         //     $('.gifplayer').gifplayer({
@@ -136,58 +363,53 @@ window.onload = function() {
         //     });
         // }
 
-        //Change Canvas quiz icon styling
-        var quizIcons = $('.icon-quiz');
-        $.each(quizIcons, function(index, value) {
-            if ($(this).css('display') !== 'none') {
-                $(this).css('display', 'flex');
-                $(this).css('color', 'white');
-                $(this).css('background-color', '#ef8641');
-                $(this).css('border-radius', '20px');
-                $(this).css('width', '25px');
-                $(this).css('height', '25px');
-                $(this).css('justify-content', 'center');
-                $(this).css('align-items', 'center');
-            }
+        ////////////////////////////////////
+        // Change Canvas quiz icon styling//
+        ////////////////////////////////////
+        $('.icon-quiz').ready(function(){
+            var quizIcons = $('.icon-quiz');
+            $.each(quizIcons, function(index, value) {
+                if ($(this).css('display') !== 'none') {
+                    $(this).css('display', 'flex');
+                    $(this).css('color', 'white');
+                    $(this).css('background-color', '#ef8641');
+                    $(this).css('border-radius', '20px');
+                    $(this).css('width', '25px');
+                    $(this).css('height', '25px');
+                    $(this).css('justify-content', 'center');
+                    $(this).css('align-items', 'center');
+                }
+            })
         })
+        
 
-        //Change Canvas lesson icon sytling
-        var lessonIcons = $('.icon-document');
-        $.each(lessonIcons, function(index, value) {
-            if ($(this).css('display') !== 'none') {
-                $(this).css('display', 'flex');
-                $(this).css('color', 'white');
-                $(this).css('background-color', '#0786a0');
-                $(this).css('border-radius', '20px');
-                $(this).css('width', '25px');
-                $(this).css('height', '25px');
-                $(this).css('justify-content', 'center');
-                $(this).css('align-items', 'center');
-            }
+        //////////////////////////////////////
+        // Change Canvas lesson icon styling//
+        //////////////////////////////////////
+        $('.icon-document').ready(function(){
+            var lessonIcons = $('.icon-document');
+            $.each(lessonIcons, function(index, value) {
+                if ($(this).css('display') !== 'none') {
+                    $(this).css('display', 'flex');
+                    $(this).css('color', 'white');
+                    $(this).css('background-color', '#0786a0');
+                    $(this).css('border-radius', '20px');
+                    $(this).css('width', '25px');
+                    $(this).css('height', '25px');
+                    $(this).css('justify-content', 'center');
+                    $(this).css('align-items', 'center');
+                }
+            })
         })
-        // var moduleTimer = setTimeout(function() {
-        //     var contextModule = $(".context_module");
-        //     $.each(contextModule, function() {
-        //         var igRows = $(this).find(".ig-row");
-        //         var totalItems = igRows.length;
-        //         var requirementsMsg = $(this).find(".requirements_message");
-        //         var completedItems = 0;
-        //         $.each(igRows, function(index, value) {
-        //             if ($(this).find("i.icon-check").css("display") === "inline-block") {
-        //                 completedItems++;
-        //                 $(this).css("border-left", "3px solid #aebe37");
-        //             } else {
-        //                 $(this).css("border-left", "3px solid #ebbab9");
-        //             }
-        //         })
-        //         $(requirementsMsg).find("ul li").text(completedItems + "/" + totalItems);
-        //     })
-        // }, 800)
+        
 
-        //Create colored left borders on module items that indicate completion status
-        var checkModuleIcon = setInterval(function(){
-            if($('.module-item-status-icon i').length){
-                var contextModule = $(".context_module");
+        ////////////////////////////////////////////////////////////////////////////////
+        // Create colored left borders on module items that indicate completion status//
+        ////////////////////////////////////////////////////////////////////////////////
+        $('.module-item-status-icon i').ready(function(){
+            $(document).ready(()=>{
+                setTimeout(()=>{
+                    var contextModule = $(".context_module");
                 $.each(contextModule, function() {
                     var igRows = $(this).find(".ig-row");
                     var totalItems = igRows.length;
@@ -203,22 +425,24 @@ window.onload = function() {
                     })
                     $(requirementsMsg).find("ul li").text(completedItems + "/" + totalItems);
                 })
-                clearInterval(checkModuleIcon); 
-            }
-        },100)
-
+                },1000)
+            })
+        })
 
         //Add Unit Headers to Module Page
-        var headerRegex = /(\d)\.0/;
-        var contextModules = $(".context_module");
-
-        $(contextModules).each(function(index,value){
-            var igHeaderElem = $(this).find(".ig-header-title");
-            var igHeaderTitle = igHeaderElem[1]["title"];
-            if(igHeaderTitle.match(headerRegex)){
-                $(`<div class="custom-unit-header">Unit ${igHeaderTitle[0]}</div>`).prependTo($(this));
-            }
+        $(".context_module").ready(function(){
+            var headerRegex = /(\d)\.0/;
+            var contextModules = $(".context_module");
+    
+            $(contextModules).each(function(index,value){
+                var igHeaderElem = $(this).find(".ig-header-title");
+                var igHeaderTitle = igHeaderElem[1]["title"];
+                if(igHeaderTitle.match(headerRegex)){
+                    $(`<div class="custom-unit-header">Unit ${igHeaderTitle[0]}</div>`).prependTo($(this));
+                }
+            })
         })
+        
 
         //Create GeoGebra Applets
         $(".ggb-element").ready(function(){
@@ -248,122 +472,33 @@ window.onload = function() {
             }
         })
 
-        // Activate draggable modals
-        // if ($(".ems-modal-content").length>0) {
+        //////////////////////////////
+        // Activate draggable modals//
+        //////////////////////////////
+        //TODO: Need to require JQuery UI
+        // $(".ems-modal-content").ready(function(){
         //     $(".ems-modal-content").each(function() {
         //         $(this).draggable({
         //             handle: ".modal-dialog"
         //         });
         //     });
-        // }
+        // })
 
-        // Old self-check button answer. Possibly delete.
-        $('.btn-answer').click(function(event) {
-            event.preventDefault();
-            $(this).siblings().toggleClass('hideAnswer');
-            if ($(this).text() === "Answer") {
-                $(this).text("Hide");
-            } else {
-                $(this).text("Answer");
-            }
-        })
-        // Creates show/hide interactivity of self-check answer
-        if ($(".answer-button").length>0) {
-            $(".answer-button").on("click", function(event) {
-                event.preventDefault();
-                $(this).parent().siblings().toggle(".answer-button");
-                if ($(this).text() === "Answer") {
-                    $(this).text("Hide");
-                } else {
-                    $(this).text("Answer");
-                }
-            })
-        }
-        /* Removes scroll bars off iframes on the hero banner */
-        if ($(".ems-container-fluid iframe")) {
-            $(".ems-container-fluid iframe").attr("scrolling", "no");
-        }
-        // Activate Gifplayer
-        if ($('.gifplayer').length>0) {
-            $('.gifplayer').gifplayer({
-                label: 'PLAY'
-            });
-        }
-        var quizIcons = $('.icon-quiz');
-        $.each(quizIcons, function(index, value) {
-            if ($(this).css('display') !== 'none') {
-                $(this).css('display', 'flex');
-                $(this).css('color', 'white');
-                $(this).css('background-color', '#ef8641');
-                $(this).css('border-radius', '20px');
-                $(this).css('width', '25px');
-                $(this).css('height', '25px');
-                $(this).css('justify-content', 'center');
-                $(this).css('align-items', 'center');
-            }
-        })
-        var lessonIcons = $('.icon-document');
-        $.each(lessonIcons, function(index, value) {
-            if ($(this).css('display') !== 'none') {
-                $(this).css('display', 'flex');
-                $(this).css('color', 'white');
-                $(this).css('background-color', '#0786a0');
-                $(this).css('border-radius', '20px');
-                $(this).css('width', '25px');
-                $(this).css('height', '25px');
-                $(this).css('justify-content', 'center');
-                $(this).css('align-items', 'center');
-            }
-        })
-        // var moduleTimer = setTimeout(function() {
-        //     var contextModule = $(".context_module");
-        //     $.each(contextModule, function() {
-        //         var igRows = $(this).find(".ig-row");
-        //         var totalItems = igRows.length;
-        //         var requirementsMsg = $(this).find(".requirements_message");
-        //         var completedItems = 0;
-        //         $.each(igRows, function(index, value) {
-        //             if ($(this).find("i.icon-check").css("display") === "inline-block") {
-        //                 completedItems++;
-        //                 $(this).css("border-left", "3px solid #aebe37");
-        //             } else {
-        //                 $(this).css("border-left", "3px solid #ebbab9");
-        //             }
-        //         })
-        //         $(requirementsMsg).find("ul li").text(completedItems + "/" + totalItems);
-        //     })
-        // }, 800)
-
-        var checkModuleIcon = setInterval(function(){
-            if($('.module-item-status-icon i').length){
-                var contextModule = $(".context_module");
-                $.each(contextModule, function() {
-                    var igRows = $(this).find(".ig-row");
-                    var totalItems = igRows.length;
-                    var requirementsMsg = $(this).find(".requirements_message");
-                    var completedItems = 0;
-                    $.each(igRows, function(index, value) {
-                        if ($(this).find("i.icon-check").css("display") === "inline-block") {
-                            completedItems++;
-                            $(this).css("border-left", "3px solid #aebe37");
-                        } else {
-                            $(this).css("border-left", "3px solid #ebbab9");
-                        }
-                    })
-                    $(requirementsMsg).find("ul li").text(completedItems + "/" + totalItems);
-                })
-                clearInterval(checkModuleIcon); 
-            }
-        },100)
+       
 
 
-        // Hide submission dates
-        if($('.quiz-header h2:contains("CHECK")').length > 0){
+        //////////////////////////////////////////
+        // Hide submission dates in speed grader//
+        //////////////////////////////////////////
+        $('.quiz-header h2:contains("CHECK")').ready(function(){
             $('.quiz-submission div:contains("Submitted")').css("display","none");
             $('#multiple_submissions').css("display","none");
-        }
+        })
+    
 
-        // Glossary Flip cards
+        ////////////////////////
+        // Glossary Flip cards//
+        ////////////////////////
         $(".glossary-card-container").ready(function(){
             $(".glossary-card-container").mouseover(function(){
                 this.style.zIndex = "100";
@@ -372,6 +507,18 @@ window.onload = function() {
             $(".glossary-card-container").mouseout(function(){
                 this.style.zIndex = "1";
             })
+        })
+
+        //////////////////////////////////////////////////////////////////////
+        // Hide the lesson page title and add it to the hero banner instead //
+        //////////////////////////////////////////////////////////////////////
+        $(".page-title").ready(function(){
+            var pageTitle = $(".page-title").text();
+            if(pageTitle.length > 0){
+                $(".hero-text").text(pageTitle);
+                $(".hero-text-bg").css("display","inline");
+                $(".page-title").css("display","none");
+            }
         })
 
 
@@ -383,16 +530,7 @@ window.onload = function() {
 
 };
 
-(function($) {
-    $(".page-title").ready(function(){
-        var pageTitle = $(".page-title").text();
-        if(pageTitle.length > 0){
-            $(".hero-text").text(pageTitle);
-            $(".hero-text-bg").css("display","inline");
-            $(".page-title").css("display","none");
-        }
-    })
-})(jquery3)
+
 
 //GeoGebra
 /*

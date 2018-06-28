@@ -18,7 +18,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:js": "browserify custom-js.js -o bundle.js",
+    "build:js": "browserify custom.js -o bundle.js",
     "watch:js": "watchify custom-js.js -o bundle.js",
     "build:css": "node-sass --include-path scss custom-style.scss custom-style.css --output-style compressed"
   },
