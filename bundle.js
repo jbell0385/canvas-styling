@@ -204,18 +204,17 @@ window.onload = function () {
 
         //Check to see if .dropdown-trigger exists.
         $('.dropdown-trigger').ready(function () {
-
             //If hot text exists, that needs to load first before the drop downs.
-            if ($('.hot-text')) {
+            if ($('.hot-text').length > 0) {
                 $('.hot-text').ready(setupDropDown);
             } else {
-                console.log('skipped hot text')
                 setupDropDown();
             }
 
             function setupDropDown() {
                 //Grab all the span elements around the trigger words for the drop downs
                 const choiceElements = document.querySelectorAll('.dropdown-trigger');
+
                 //Grab all the empty drop down containers that will be filled with the answer choices
                 const dropdownElements = document.querySelectorAll('.dropdown-container');
 
@@ -227,28 +226,27 @@ window.onload = function () {
                 function ddCreate(e) {
                     //grab the id dataset from the word that was clicked
                     const dropDownId = this.dataset.id;
+
                     //using that id, grab the correct empty container
                     const dropDown = document.querySelector(`#${dropDownId}`);
+
                     //create all the answer choices that will fill the drop down container
-                    const answerA = this.dataset.a;
-                    const answerB = this.dataset.b;
-                    const answerC = this.dataset.c;
-                    const answerD = this.dataset.d;
-                    //Create the html with the answer choices
-                    const html = `
-                        <ol>
-                            <li>${answerA}</li>
-                            <li>${answerB}</li>
-                            <li>${answerC}</li>
-                            <li>${answerD}</li>
-                        </ol>
-                    `
+                    //note: the regex looks for datasets with a single letter e.g. dataset-a, dataset-b, etc.  That's how it grabes the question choices.
+                    let html = `<ol type="a">`;
+                    const dataSets = this.dataset;
+                    for (var set in dataSets) {
+                        const regx = /^\D$/g
+                        if (regx.test(set)) {
+                            html += `<li>${this.dataset[set]}</li>`;
+                        }
+                    }
+                    html += "</ol>";
+
                     //drop that html into the empty drop down container
                     dropDown.innerHTML = html;
 
                     //show the dropdown menu
-                    dropDown.classList.toggle('dropdown-show');
-
+                    dropDown.classList.add('dropdown-show');
                     //position it based upon the span tag
                     const x = e.target.offsetLeft;
                     const y = e.target.offsetTop + e.target.offsetHeight;
@@ -289,7 +287,8 @@ window.onload = function () {
 
                 //hide the drop down menu if the user clicks outside of the drop down menu
                 window.addEventListener('click', e => {
-                    if (!e.target.matches('.dropdown-container') && !e.target.matches('.dropdown-trigger')) {
+                    if (!e.target.matches('.dropdown-container') && !e.target.matches(
+                            '.dropdown-trigger')) {
                         dropdownElements.forEach((el) => {
                             el.classList.remove('dropdown-show');
                         })

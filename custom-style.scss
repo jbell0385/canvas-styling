@@ -85,7 +85,7 @@ xmp {
     max-width: 100%;
 }
 
-.sidebar-menu {
+.card.sidebar-menu {
     display: none;
     position: fixed !important;
     top: 10%;
@@ -103,7 +103,7 @@ xmp {
 }
 
 .sidebar-show {
-    display: flex;
+    display: flex !important;
 }
 
 //========================================
@@ -158,7 +158,7 @@ xmp {
             cursor: pointer;
         }
         li:hover {
-            background-color: #b4dae2;
+            background-color: #b4dae2 !important;
         }
     }
     .dropdown-show {
