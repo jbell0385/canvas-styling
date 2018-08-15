@@ -1,128 +1,35 @@
-<div class="container ems-container-fluid">
-    <p>Which of the answer choices is a transformation that maps \(\triangle ABC\) to \(\triangle A'B'C'\)?</p>
-    <p>Use the GeoGebra below to test the answer choices.</p>
-    <p>
-        <a title="How do I do this?" href="#" data-toggle="modal" data-target="#help-box">
-            <i class="far fa-question-circle"></i>
-        </a>
-    </p>
-    <div class="embed-responsive embed-responsive-4by3 img-800">
-        <iframe scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-02" src="https://www.geogebra.org/material/iframe/id/Jxvj8gcD/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-    </div>
-    <div id="help-box" class="modal fade" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content ems-modal-content">
-                <div class="modal-header">
-                    <h5 id="" class="modal-title">Help Box</h5>
-                    <a class="close" aria-label="Close" href="#" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe src="https://www.youtube.com/embed/qvtJaeNXarw?rel=0" width="560" height="315" allowfullscreen="allowfullscreen"></iframe>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" href="#" data-dismiss="modal">Close</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
 
+<body>
+    <h1>1.0 - Impact of Ancient Greece and Rome </h1>
 
+    <script>
+        var moduleRegex = /\*\*(\w+\s\w+)+\s?\*\*/;
+        var moduleHeadingEl = document.querySelector('h1');
+        var moduleHeading = moduleHeadingEl.innerHTML;
+        //console.log(regex.exec(heading));
+        var unitHeadingElement = moduleRegex.exec(moduleHeading);
+        console.log(unitHeadingElement);
+        if (unitHeadingElement) {
+            var unitHeading = unitHeadingElement[1];
+            var headingIndex = moduleHeading.indexOf("*");
+            var newModuleHeading = moduleHeading.slice(0, headingIndex);
+            moduleHeadingEl.innerHTML = newModuleHeading;
+            var unitElement = document.createElement('h1');
+            unitElement.innerHTML = `1.0 - ${unitHeading}`;
+            console.log(unitElement);
+            moduleHeadingEl.prepend(unitElement);
+        }
 
-<!-- 04 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-04" src="https://www.geogebra.org/material/iframe/id/AJnVW5En/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
+    </script>
+</body>
 
-<!-- 05 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-05" src="https://www.geogebra.org/material/iframe/id/Pd5rQhxA/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 06 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-06" src="https://www.geogebra.org/material/iframe/id/tYbajvUB/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 07 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-07" src="https://www.geogebra.org/material/iframe/id/Y53mf979/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 08 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-08" src="https://www.geogebra.org/material/iframe/id/x5nJgsmE/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 09 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-09" src="https://www.geogebra.org/material/iframe/id/SBv3qvnG/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 10 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-10" src="https://www.geogebra.org/material/iframe/id/df34RWFz/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 11 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-11" src="https://www.geogebra.org/material/iframe/id/SeqgXa2k/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 12 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-12" src="https://www.geogebra.org/material/iframe/id/QbbxpG3d/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 13 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-13" src="https://www.geogebra.org/material/iframe/id/QPqbugyU/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 14 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-14" src="https://www.geogebra.org/material/iframe/id/RWAWFqJw/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 15 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-15" src="https://www.geogebra.org/material/iframe/id/n3QFVDkV/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 16 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-16" src="https://www.geogebra.org/material/iframe/id/Y98PSbbg/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 17 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-17" src="https://www.geogebra.org/material/iframe/id/gk9r89Fr/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 18 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-18" src="https://www.geogebra.org/material/iframe/id/vXpMuYB6/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 19 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-19" src="https://www.geogebra.org/material/iframe/id/gs6HMd5W/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-<!-- 20 -->
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L03A01-Sequence-of-Transformations-20" src="https://www.geogebra.org/material/iframe/id/MKxbKq39/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/true/rc/true/ld/false/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
-
-
-
-
-
-<div class="embed-responsive embed-responsive-4by3 img-800">
-    <iframe class="embed-responsive-item" scrolling="no" title="G.CO.A.5-L01-i0401" src="https://www.geogebra.org/material/iframe/id/HFKWyHuf/width/800/height/600/border/888888/smb/false/stb/true/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/true/sdz/true/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
-</div>
+</html>

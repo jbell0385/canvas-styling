@@ -134,6 +134,7 @@ window.onload = function () {
                 waypoints.forEach(function (waypoint) {
                     //Grabs the data-wpnum so I can style the sidebar li that correlates with the user's current scroll
                     var wpNumber = Number(waypoint.dataset.wpnum);
+                    console.log(wpNumber);
                     new Waypoint({
                         element: document.querySelector(`[data-waypoint="${waypoint.dataset.waypoint}"]`),
                         handler: function (direction) { //direction is a built in property of waypoint "up" "down"
@@ -193,7 +194,7 @@ window.onload = function () {
         //dropdown choice is embedded in a paragraph of text that the user can interact with.
         /*
             Roadmap:
-            1) Check to see if .dropdown-trigger exists in html. 
+            1) Check to see if .dropdown-trigger exists in html.
             2) I check to .hot-text, because I've noticed a bug that the .hot-text needs to load first before the drop downs are created.
             3) Grab all the .dropdown-trigger elements and containers
             4) populate the containers with answer choices from the dataset of the dropdown-trigger datasets
@@ -497,13 +498,24 @@ window.onload = function () {
         //Add Unit Headers to Module Page
         $(".context_module").ready(function () {
             var headerRegex = /(\d)\.0/;
+            var moduleRegex = /\*\*(.+)\s?\*\*/;
             var contextModules = $(".context_module");
 
             $(contextModules).each(function (index, value) {
                 var igHeaderElem = $(this).find(".ig-header-title");
+                var igHeaderTitleElem = $(this).find('.ig-header-title>.name');
+
                 var igHeaderTitle = igHeaderElem[1]["title"];
                 if (igHeaderTitle.match(headerRegex)) {
-                    $(`<div class="custom-unit-header">Unit ${igHeaderTitle[0]}</div>`).prependTo($(this));
+                    var unitHeadingElement = moduleRegex.exec(igHeaderTitle);
+                    if(unitHeadingElement){
+                        var unitHeading = unitHeadingElement[1];
+                        var headingIndex = igHeaderTitle.indexOf('*');
+                        var newModuleHeading = igHeaderTitle.slice(0,headingIndex);
+                        igHeaderTitleElem.html(newModuleHeading);
+                        $(`<div class="custom-unit-header">Unit ${igHeaderTitle[0]} - ${unitHeading}</div>`).prependTo($(this));
+                    }
+
                 }
             })
         })
