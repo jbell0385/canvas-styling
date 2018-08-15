@@ -448,6 +448,25 @@ window.onload = function () {
             })
         })
 
+        ////////////////////////////////////
+        // Change Canvas Assignment icon styling//
+        ////////////////////////////////////
+        $('.icon-assignment').ready(function () {
+            var assignmentIcons = $('.icon-assignment');
+            $.each(assignmentIcons, function (index, value) {
+                if ($(this).css('display') !== 'none') {
+                    $(this).css('display', 'flex');
+                    $(this).css('color', 'white');
+                    $(this).css('background-color', '#ef8641');
+                    $(this).css('border-radius', '20px');
+                    $(this).css('width', '25px');
+                    $(this).css('height', '25px');
+                    $(this).css('justify-content', 'center');
+                    $(this).css('align-items', 'center');
+                }
+            })
+        })
+
 
         //////////////////////////////////////
         // Change Canvas lesson icon styling//
